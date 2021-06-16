@@ -4,19 +4,19 @@ CREATE DATABASE employeeDB;
 USE employeeDB;
 
 CREATE TABLE department (
-    id INT AUTO_INCREMENT NOT NULL PRIMARY,
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     department_name VARCHAR(30) NOT NULL  
 );
 
 CREATE TABLE role (
-    id INT AUTO_INCREMENT NOT NULL PRIMARY,
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     title VARCHAR(30),
     salary DECIMAL(10, 2),
     department_id INT  
 );
 
 CREATE TABLE employees (
-    id INT AUTO_INCREMENT NOT NULL PRIMARY,
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     first_name VARCHAR(30),
     last_name VARCHAR(30),
     role_id INT NOT NULL,
@@ -28,7 +28,7 @@ VALUES
     ("Engineering"),
     ("Sales"),
     ("Legal"),
-    ("Finance"),
+    ("Finance");
 
 INSERT INTO role (title, salary, department_id)
 VALUES 
@@ -37,7 +37,7 @@ VALUES
     ("Sales Lead", 80000, 2),
     ("Salesperson", 60000, 2),
     ("Lawyer", 160000, 3),
-    ("Accountant", 110000, 4),
+    ("Accountant", 110000, 4);
     
 
 
