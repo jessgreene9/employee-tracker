@@ -38,20 +38,51 @@ const empDepartments = () => {
         "Legal",
         "Finance"],
 
-}).then((answer) => {;
-    connection.query('SELECT title, first_name, last_name, department_name FROM role INNER JOIN employees ON employees.role_id = role.id INNER JOIN department ON role.department_id = department.id',
+}).then((answer) => {
+    console.log("Viewing employees by department");
+    connection.query(`
+    SELECT title, first_name, last_name, department_name 
+    FROM department 
+    INNER JOIN role ON role.department_id = department.id 
+    INNER JOIN employees ON employees.role_id = role.id 
+    WHERE ?`,
+    {
+        department_name : answer.department,
+    },
     
     (err, results) => {
         if (err) throw err;
         console.table(results);
         init();
     });
-})}
+    
+})};
 
 
 
-const empRoles = () => {};
-
+const empRoles = () => {
+    inquirer
+    .prompt({
+        name: "department",
+        type: "list",
+        message: "Select which role you would like to view.",
+        choices: ["Software Engineer",
+        "Lead Engineer",
+        "Sales Lead",
+        "Salesperson",
+        "Lawyer",
+        "Accountant"
+    ],
+}).then((answer) => {
+    console.log("Viewing employees by role");
+    connection.query('SELECT title, first_name, last_name FROM role INNER JOIN employees ON employees.role_id = role.id',
+    
+    (err, results) => {
+        if (err) throw err;
+        console.table(results);
+        init();
+    });
+})};
 
 
 
