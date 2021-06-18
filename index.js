@@ -92,11 +92,47 @@ const empRoles = () => {
 })};
 
 
+const addEmployee = () => {
+    inquirer
+    .prompt([{       
+            name: "newFirst",
+            type: "input",
+            message: "Enter employee's first name."    
+            },
+            {
+            name: "newLast",
+            type: "input",
+            message: "Enter employee's last name."    
+            },
+            {
+            name: "newRole",
+            type: "list",
+            message: "What is their Role ID?",
+            choices: [ 
+                "1", "2", "3", "4", "5", "6"
+            
+            ]
+        }])
+        .then ((answer) => {
+            connection.query(
+                `INSERT INTO employees SET ?`,
+                {
+                    first_name: answer.newFirst,
+                    last_name: answer.newLast,
+                    role_id : answer.newRole
+                },
+            (err, res) => {
+                if (err) throw err;
+                console.log("New employee Added!");
+                init();
+            }
+            );
+        })};
+
 
 
 
 const empManager = () => {};
-const addEmployee = () => {};
 const removeEmployee = () => {};
 
 
