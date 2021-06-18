@@ -27,9 +27,26 @@ const employees = () => {
 
 
 
-const empDepartments = () => {};
+const empDepartments = () => {
+    inquirer
+    .prompt({
+        name: "department",
+        type: "list",
+        message: "Select which department you would like to view.",
+        choices: ["Engineering",
+        "Sales",
+        "Legal",
+        "Finance"],
 
-
+}).then((answer) => {;
+    connection.query('SELECT title, first_name, last_name, department_name FROM role INNER JOIN employees ON employees.role_id = role.id INNER JOIN department ON role.department_id = department.id',
+    
+    (err, results) => {
+        if (err) throw err;
+        console.table(results);
+        init();
+    });
+})}
 
 
 
