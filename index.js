@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql');
-const console = require('console.table');
+// const console = require('console.table');
 
 const connection = mysql.createConnection({
 	host: "localhost",
@@ -9,6 +9,44 @@ const connection = mysql.createConnection({
 	password: "", 
 	database: "employeeDB",
 });
+
+
+
+const employees = () => {
+    console.log("Viewing all employees");
+    connection.query('SELECT * FROM employees',
+    
+    (err, results) => {
+        if (err) throw err;
+        console.table(results);
+        init();
+    });
+    
+};
+
+
+
+
+const empDepartments = () => {};
+
+
+
+
+
+const empRoles = () => {};
+
+
+
+
+
+
+const empManager = () => {};
+const addEmployee = () => {};
+const removeEmployee = () => {};
+
+
+
+
 
 const init = () => {
    
@@ -59,7 +97,7 @@ const init = () => {
                     break;
             }
         });
-     }
+     };
 
 
 
