@@ -63,7 +63,7 @@ const empDepartments = () => {
 const empRoles = () => {
     inquirer
     .prompt({
-        name: "department",
+        name: "role",
         type: "list",
         message: "Select which role you would like to view.",
         choices: ["Software Engineer",
@@ -75,7 +75,14 @@ const empRoles = () => {
     ],
 }).then((answer) => {
     console.log("Viewing employees by role");
-    connection.query('SELECT title, first_name, last_name FROM role INNER JOIN employees ON employees.role_id = role.id',
+    connection.query(`
+    SELECT title, first_name, last_name 
+    FROM role 
+    INNER JOIN employees ON employees.role_id = role.id
+    WHERE ?`,
+    {
+        title : answer.role,
+    },
     
     (err, results) => {
         if (err) throw err;
