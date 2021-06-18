@@ -130,9 +130,9 @@ const addEmployee = () => {
       },
       {
         name: "newRole",
-        type: "list",
-        message: "What is their Role ID?",
-        choices: ["1", "2", "3", "4", "5", "6"],
+        type: "number",
+        message: "What is their Role ID? (Please enter a number)",
+        
       },
     ])
     .then((answer) => {
@@ -184,13 +184,13 @@ const addRole = () => {
       {
         name: "salary",
         type: "number",
-        message: "Enter the salary of the new role",
+        message: "Enter the salary of the new role.(Please enter a numeric value only)",
       },
       {
         name: "department_id",
-        type: "list",
-        message: "What is their Department ID?",
-        choices: ["1", "2", "3", "4", "5", "6"],
+        type: "number",
+        message: "What is their Department ID?(Please enter a number)",
+        
       },
     ])
     .then((answer) => {
@@ -210,7 +210,30 @@ const addRole = () => {
     });
 };
 
-const addDepartment = () => {};
+const addDepartment = () => {
+    inquirer
+    .prompt([
+      {
+        name: "department",
+        type: "input",
+        message: "Enter the name of the new department",
+      },
+     
+    ])
+    .then((answer) => {
+      connection.query(
+        `INSERT INTO department SET ?`,
+        {
+          department_name:answer.department
+        },
+        (err, res) => {
+          if (err) throw err;
+          console.log("New department added!");
+          init();
+        }
+      );
+    });
+};
 const updateEmployee = () => {};
 const empManager = () => {};
 
