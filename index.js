@@ -255,37 +255,39 @@ const addRole = () => {
 };
 
 const removeEmployee = () => {
-    connection.query(`SELECT * FROM employees`, (err, empResults) => {
-        if (err) throw err;
-        
-    
-        const employees = empResults.map((employee) => {
-          return {
-            name: employee.first_name + " " + employee.last_name,
-            value: employee.id,
-          };
-        });;
-  inquirer
-    .prompt([
-      {
-        name: "employee",
-        type: "list",
-        message: "Select an employee to remove: ",
-        choices: employees,
-      },
-    ])
-    .then((answer) => {
-      connection.query(`DELETE FROM employees WHERE ?`, 
-      {
-        id: answer.employee,
-      },
-      (err, res) => {
-        if (err) throw err;
-        console.log("This employee has been removed.");
-        init();
+  connection.query(`SELECT * FROM employees`, (err, empResults) => {
+    if (err) throw err;
+
+    const employees = empResults.map((employee) => {
+      return {
+        name: employee.first_name + " " + employee.last_name,
+        value: employee.id,
+      };
+    });
+    inquirer
+      .prompt([
+        {
+          name: "employee",
+          type: "list",
+          message: "Select an employee to remove: ",
+          choices: employees,
+        },
+      ])
+      .then((answer) => {
+        connection.query(
+          `DELETE FROM employees WHERE ?`,
+          {
+            id: answer.employee,
+          },
+          (err, res) => {
+            if (err) throw err;
+            console.log("This employee has been removed.");
+            init();
+          }
+        );
       });
-    
-})})};
+  });
+};
 
 const addDepartment = () => {
   inquirer
@@ -311,58 +313,62 @@ const addDepartment = () => {
     });
 };
 const updateEmployee = () => {
-    connection.query(`SELECT * FROM employees`, (err, empResults) => {
-        if (err) throw err;
-       
-    
-        const employees = empResults.map((employee) => {
-          return {
-            name: employee.first_name + " " + employee.last_name,
-            value: employee.id,
-          };
-        });
-        connection.query(
-            `SELECT * FROM role`,
-      
-            (err, results) => {
-              if (err) throw err;
-      
-              const roles = results.map((role) => {
-                return { name: role.title, value: role.id };
-              });
-      
-  inquirer
-    .prompt([
-      {
-        name: "update",
-        type: "list",
-        message: "which employee would you like to update?",
-        choices: employees,
-      },
-      {
-        name: "role",
-        type: "list",
-        message: "Select the employee's new role",
-        choices: roles,
-      },
-    ])
-    .then((answer) => {
-      connection.query(`UPDATE employees SET ? WHERE ?`, 
-      [{
-          role_id: answer.role,},
-          {
-          id: answer.update,  
-      }],
-      (err, res) => {
-        if (err) throw err;
-        console.log("Employee role has been updated!");
-        init();
-      });
+  connection.query(`SELECT * FROM employees`, (err, empResults) => {
+    if (err) throw err;
+
+    const employees = empResults.map((employee) => {
+      return {
+        name: employee.first_name + " " + employee.last_name,
+        value: employee.id,
+      };
     });
-})})};
+    connection.query(
+      `SELECT * FROM role`,
 
+      (err, results) => {
+        if (err) throw err;
 
-const empManager = () => {};
+        const roles = results.map((role) => {
+          return { name: role.title, value: role.id };
+        });
+
+        inquirer
+          .prompt([
+            {
+              name: "update",
+              type: "list",
+              message: "which employee would you like to update?",
+              choices: employees,
+            },
+            {
+              name: "role",
+              type: "list",
+              message: "Select the employee's new role",
+              choices: roles,
+            },
+          ])
+          .then((answer) => {
+            connection.query(
+              `UPDATE employees SET ? WHERE ?`,
+              [
+                {
+                  role_id: answer.role,
+                },
+                {
+                  id: answer.update,
+                },
+              ],
+              (err, res) => {
+                if (err) throw err;
+                console.log("Employee role has been updated!");
+                init();
+              }
+            );
+          });
+      }
+    );
+  });
+};
 
 const init = () => {
   inquirer
@@ -376,7 +382,6 @@ const init = () => {
         "View all departments",
         "View employees by departments",
         "View employees by roles",
-        "View employees by manager",
         "Add employee",
         "Remove employee",
         "Update employee role",
@@ -405,10 +410,6 @@ const init = () => {
 
         case "View employees by roles":
           empRoles();
-          break;
-
-        case "View employees by manager":
-          empManager();
           break;
 
         case "Add employee":
