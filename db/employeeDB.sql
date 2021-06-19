@@ -43,8 +43,8 @@ VALUES
 
 INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES 
-    ("Seth", "Parham", 2, 1),
-    ("Shannon", "Clark", 6, 2),
+    ("Seth", "Parham", 2, null),
+    ("Shannon", "Clark", 6, 5),
     ("Britt", "Rogers", 5, null),
     ("Stephanie", "Snead", 3, 3),
     ("Josh", "Burris", 4, null),
@@ -56,3 +56,9 @@ SELECT * FROM department;
 SELECT * FROM role;
 
 SELECT * FROM employees;
+
+ SELECT title, first_name, last_name, department_name 
+    FROM department 
+    INNER JOIN role ON role.department_id = department.id 
+    INNER JOIN employees ON employees.role_id = role.id 
+    WHERE ?`,
