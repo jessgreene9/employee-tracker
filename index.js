@@ -2,6 +2,8 @@ const inquirer = require("inquirer");
 const mysql = require("mysql");
 // const console = require('console.table');
 
+
+//creates connection to database and port
 const connection = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -10,6 +12,8 @@ const connection = mysql.createConnection({
   database: "employeeDB",
 });
 
+
+//function to view all employees
 const employees = () => {
   console.log("Viewing all employees");
   connection.query(
@@ -26,6 +30,7 @@ const employees = () => {
   );
 };
 
+//function to view all roles
 const viewRoles = () => {
   console.log("Viewing all roles");
   connection.query(
@@ -41,6 +46,8 @@ const viewRoles = () => {
   );
 };
 
+
+//function to view all departments
 const viewDepartments = () => {
   console.log("Viewing all departments");
   connection.query(
@@ -56,6 +63,7 @@ const viewDepartments = () => {
   );
 };
 
+//function to view employees by departments
 const empDepartments = () => {
   connection.query(
     "SELECT * FROM department",
@@ -98,6 +106,7 @@ const empDepartments = () => {
   );
 };
 
+//function to view employees by roles
 const empRoles = () => {
   connection.query(
     "SELECT * FROM role",
@@ -138,6 +147,7 @@ const empRoles = () => {
   );
 };
 
+//function to add employee
 const addEmployee = () => {
   connection.query(`SELECT * FROM employees`, (err, empResults) => {
     if (err) throw err;
@@ -205,6 +215,8 @@ const addEmployee = () => {
     );
   });
 };
+
+//function to add a role
 const addRole = () => {
   connection.query(
     `SELECT * FROM department`,
@@ -254,6 +266,7 @@ const addRole = () => {
   );
 };
 
+//function to remove an employee
 const removeEmployee = () => {
   connection.query(`SELECT * FROM employees`, (err, empResults) => {
     if (err) throw err;
@@ -289,6 +302,7 @@ const removeEmployee = () => {
   });
 };
 
+//function to add department
 const addDepartment = () => {
   inquirer
     .prompt([
@@ -370,6 +384,7 @@ const updateEmployee = () => {
   });
 };
 
+//function to initiate the application
 const init = () => {
   inquirer
     .prompt({
@@ -439,6 +454,7 @@ const init = () => {
     });
 };
 
+//ends the connection and exits the application
 connection.connect((err) => {
   if (err) throw err;
   init();
