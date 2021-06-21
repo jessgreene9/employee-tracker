@@ -1,6 +1,6 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql");
-// const console = require('console.table');
+const cTable = require('console.table');
 
 
 //creates connection to database and port
@@ -85,8 +85,7 @@ const empDepartments = () => {
         .then((answer) => {
           console.log("Viewing employees by department");
           connection.query(
-            `
-        SELECT title, first_name, last_name, department_name 
+    `SELECT title, first_name, last_name, department_name 
     FROM department 
     INNER JOIN role ON role.department_id = department.id 
     INNER JOIN employees ON employees.role_id = role.id 
